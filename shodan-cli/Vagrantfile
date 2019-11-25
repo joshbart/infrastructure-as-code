@@ -1,0 +1,12 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/bionic64"
+
+  # Installation of Shodan CLI
+  config.vm.provision :shell, inline: "apt-get update"
+  config.vm.provision :shell, inline: "apt-get -y install python3-pip"
+  config.vm.provision :shell, inline: "python3 -m pip install shodan"
+
+  # Configuration of Shodan
+  config.vm.provision :shell, inline: "source /vagrant/.env; shodan init $SHODAN_API_KEY", privileged: false
+
+end
