@@ -1,0 +1,15 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/bionic64"
+
+  # Installation of AWS CLI v1
+  config.vm.provision :shell, inline: 'apt-get update'
+  config.vm.provision :shell, inline: 'apt-get install -y python3-pip'
+  config.vm.provision :shell, inline: 'python3 -m pip install awscli --upgrade'
+
+  # Configuration of AWS CLI (More info here: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html#cli-configure-files-global)
+  config.vm.provision :shell, privileged: false, inline: "source /vagrant/.env; aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID"
+  config.vm.provision :shell, privileged: false, inline: "source /vagrant/.env; aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY"
+  config.vm.provision :shell, privileged: false, inline: "source /vagrant/.env; aws configure set region $AWS_DEFAULT_REGION"
+  config.vm.provision :shell, privileged: false, inline: "source /vagrant/.env; aws configure set output $AWS_OUTPUT_FORMAT"
+
+end
