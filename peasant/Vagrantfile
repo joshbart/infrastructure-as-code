@@ -1,0 +1,7 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/bionic64"
+  config.vm.provision :shell, inline: "apt-get update && apt-get -y install python3-pip"
+  config.vm.provision :shell, inline: "git clone https://github.com/arch4ngel/peasant.git /opt/peasant"
+  config.vm.provision :shell, inline: "python3 -m pip install -r /opt/peasant/requirements.txt"
+  config.vm.provision :shell, inline: "ln -s /opt/peasant/peasant.py /usr/local/bin/peasant"
+end
